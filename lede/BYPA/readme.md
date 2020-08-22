@@ -14,10 +14,12 @@
 * 使用node版解锁
 * 自定义音源：kuwo qq migu kugou xiami baidu netease
 * smartdns中屏蔽网易云ipv6地址，或许需要设置一次代理，取消，才能自动解锁（已知windows需要）
+* 若只使用AdGuardHome 则添加DNS重写为A记录
 * 添加pac文件，在/www 目录中添加 music.pac文件
 * 如果使用了AdGuardHome 需要放行网易云域名
 ----
 ### 已知问题
 * 有时不能正确获取旁路由的ipv6地址（主路由的NDP不能正确更新）
 * youtube广告走国内通道
+* AdGuardHome 暂时不支持ipset，需要设为dnsmasq上游服务器
 
