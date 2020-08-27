@@ -24,4 +24,4 @@ fi
 ```
 ------------
 ### 添加定时命令
-* ``` */1 * * * * /usr/bin/bypa.sh check ```
+* ``` */1 * * * * /etc/storage/bypa.sh check ```
