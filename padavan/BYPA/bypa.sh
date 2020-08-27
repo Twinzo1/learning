@@ -69,4 +69,4 @@ byp_online()
   del_dhcp
 }
 
-[ "$1" = "check" ] && byp_online || echo "参数错误" >>  $LOGFILE
+[ "$1" = "check" ] && byp_online || logger -t "【BYPA】" "参数错误"
