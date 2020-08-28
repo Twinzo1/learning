@@ -1,6 +1,6 @@
 #!/bin/sh
 # 定时命令
-# */1 * * * * /etc/storage/bypa.sh check
+# */1 * * * * /etc/storage/bypa.sh start
 
 LOGFILE="/tmp/log/bypa.log"
 # 获取旁路由mac地址，必填(或填ipv4地址)
@@ -70,4 +70,11 @@ byp_online()
 	del_dhcp
 }
 
-[ "$1" = "check" ] && byp_online || logger -t "【BYPA】" "参数错误"
+case $1 in
+start)
+    	byp_online
+	;;
+*)
+	logger -t "【BYPA】" "参数错误"
+	;;
+esac
