@@ -8,6 +8,7 @@
 * 选择IPTV STB 端口，填写标记iptv的vid
 ### 单线复用（每个端口都能用）
 * 标记iptv的vid，并执行命令``` switch vlan set 37 1111111 0 0 ttttttt ```
+* 37 是我的IPTV VID
 -------
 ## 放行wan口samba访问
 * 在防火墙后面添加
