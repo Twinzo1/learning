@@ -15,8 +15,7 @@
 ```
 logger -t "【BYPA】" "正在下载旁路由辅助脚本"
 if [ ! -e "/etc/storage/bypa.sh" ]; then
-    curl -k -s -o /etc/storage/bypa.sh --connect-timeout 10 --retry 3 https://raw.githubusercontent.com/Twinzo1/learning/master/padavan/BYPA/bypa.sh -v
-    mtd_storage.sh save
+    curl -k -s -o /etc/storage/bypa.sh --connect-timeout 10 --retry 3 https://raw.githubusercontent.com/Twinzo1/learning/master/padavan/BYPA/bypa.sh -v && mtd_storage.sh save
     chmod 755 /etc/storage/bypa.sh && /etc/storage/bypa.sh check
 else
     logger -t "【BYPA】" "脚本已存在，无需下载"
