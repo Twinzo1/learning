@@ -21,7 +21,7 @@ BYP_IP6=`ip -6 neighbor show | grep -i "$BYP_MAC" | sed -n '1p' | awk -F " " '{p
 
 # 解锁网易云pac地址
 # BYP_PAC=`nvram get bypa_pac_x 2>/dev/null`
-BYP_PAC=
+BYP_PAC=""
 
 # 添加dhcp_option
 add_dhcp()
