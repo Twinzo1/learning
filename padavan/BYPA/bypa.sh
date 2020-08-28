@@ -11,6 +11,7 @@ BYP_MAC=""
 # BYP_IP4=`nvram get bypa_ipaddr_x 2>/dev/null`
 BYP_IP4="10.0.0.2"
 # 我的旁路由ip
+[ -z "$BYP_IP4" -a -z "$BYP_MAC" ] && logger -t "【BYPA】" "需填写IP或mac地址，脚本退出" && exit 0
 [ -z "$BYP_IP4" ] && BYP_IP4=`cat /proc/net/arp | grep -i "$BYP_MAC" | awk -F " " '{print $1}' 2>/dev/null`
 
 # 通过ipv4地址获取mac
