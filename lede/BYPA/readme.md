@@ -28,4 +28,5 @@
 * 有时不能正确获取旁路由的ipv6地址（主路由的NDP不能正确更新）
 * youtube广告走国内通道
 * AdGuardHome 暂时不支持ipset，需要设为dnsmasq上游服务器
+* ipv6网关还是主路由
 
