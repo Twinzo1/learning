@@ -18,6 +18,9 @@
 * 添加pac文件，在/www 目录中添加 music.pac文件
 * 如果使用了AdGuardHome 需要放行网易云域名
 ----
+### rclone挂载
+* ```rclone mount teacher: /mnt/teacher --config /mnt/sda3/etc/rclone/rclone.conf --allow-other --allow-non-empty --vfs-cache-mode writes &```
+-----
 ### 已解决问题
 * 开启adg或smartdns后且没有拦截但不能访问的域名，可在DNS转发处添加诸如``` /login.microsoftonline.com/223.6.6.6#53```来跳过adg或smartdns
 -----
