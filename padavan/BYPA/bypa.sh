@@ -22,20 +22,21 @@ BYP_IP6=`ip -6 neighbor show | grep -i "$BYP_MAC" | sed -n '1p' | awk -F " " '{p
 
 # 解锁网易云pac地址
 # BYP_PAC=`nvram get bypa_pac_x 2>/dev/null`
-BYP_PAC=""
+BYP_PAC="http://10.0.0.2/music.pac"
 
 # 添加dhcp_option
 add_dhcp()
 {
-	sed -i '/dhcp-option=lan,3,$BYP_IP4/d' /etc/storage/dnsmasq/dnsmasq.conf
-	sed -i '/dhcp-option=lan,6,$BYP_IP4/d' /etc/storage/dnsmasq/dnsmasq.conf
-	sed -i '/dhcp-option=lan,252/d' /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i "/dhcp-option=lan,3,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i "/dhcp-option=lan,6,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i "/dhcp-option=lan,252/d" /etc/storage/dnsmasq/dnsmasq.conf
 	nvram set dhcp_dnsv6_x=""
 cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
 dhcp-option=lan,3,$BYP_IP4
 dhcp-option=lan,6,$BYP_IP4
 dhcp-option=lan,252,$BYP_PAC
 EOF
+	[ -z "$BYP_PAC" ] && sed -i "/dhcp-option=lan,252/d" /etc/storage/dnsmasq/dnsmasq.conf
   	nvram set dhcp_dnsv6_x="$BYP_IP6"
   	nvram commit
   	/sbin/restart_dhcpd
@@ -45,9 +46,9 @@ EOF
 # 删除dhcp_option
 del_dhcp()
 {
-	sed -i '/dhcp-option=lan,3,$BYP_IP4/d' /etc/storage/dnsmasq/dnsmasq.conf
-	sed -i '/dhcp-option=lan,6,$BYP_IP4/d' /etc/storage/dnsmasq/dnsmasq.conf
-	sed -i '/dhcp-option=lan,252,"$BYP_PAC"/d' /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i "/dhcp-option=lan,3,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i "/dhcp-option=lan,6,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i "/dhcp-option=lan,252,$BYP_PAC/d" /etc/storage/dnsmasq/dnsmasq.conf
 	nvram set dhcp_dnsv6_x=""
 	nvram commit
 	/sbin/restart_dhcpd
