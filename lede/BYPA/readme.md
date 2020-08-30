@@ -22,7 +22,7 @@
 * ```rclone mount teacher: /mnt/teacher --config /mnt/sda3/etc/rclone/rclone.conf --allow-other --allow-non-empty --vfs-cache-mode writes &```
 -----
 ### 已解决问题
-* 开启adg或smartdns后且没有拦截但不能访问的域名，可在DNS转发处添加诸如``` /login.microsoftonline.com/223.6.6.6#53```来跳过adg或smartdns
+* 有些网站显示ssl错误，```ERR_SSL_PROTOCOL_ERROR```，尝试切换ssr+运行模式
 -----
 ### 已知问题
 * 有时不能正确获取旁路由的ipv6地址（主路由的NDP不能正确更新）
