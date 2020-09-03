@@ -26,6 +26,7 @@
 -----
 ### 已解决问题
 * 有些网站显示ssl错误，```ERR_SSL_PROTOCOL_ERROR```，尝试切换ssr+运行模式
+* www.googleapis.com 是youtube app上网的域名
 -----
 ### 已知问题
 * 有时不能正确获取旁路由的ipv6地址（主路由的NDP不能正确更新）
