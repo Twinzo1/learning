@@ -21,6 +21,8 @@
 ### rclone挂载
 * ```rclone mount teacher: /mnt/teacher --config /mnt/sda3/etc/rclone/rclone.conf --allow-other --allow-non-empty --vfs-cache-mode writes &```
 -----
+### 进阶设置
+* 可用```dhcp-mac```设置标签，实现ssr的走代理模式，适用于有旁路由的模式，具体可参考padavan描述
 ### 已解决问题
 * 有些网站显示ssl错误，```ERR_SSL_PROTOCOL_ERROR```，尝试切换ssr+运行模式
 -----
@@ -28,5 +30,5 @@
 * 有时不能正确获取旁路由的ipv6地址（主路由的NDP不能正确更新）
 * youtube广告走国内通道
 * AdGuardHome 暂时不支持ipset，需要设为dnsmasq上游服务器
-* ipv6网关还是主路由
+* ipv6网关还是主路由，可用option6指定网关（暂时没有需求）
 
