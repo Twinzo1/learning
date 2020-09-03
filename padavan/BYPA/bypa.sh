@@ -27,12 +27,14 @@ BYP_PAC="http://10.0.0.2/music.pac"
 # 添加dhcp_option
 add_dhcp()
 {
-	sed -i "/dhcp-option=lan,3,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i "/dhcp-option=greatwall,3,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
+	# 只指定greatwall的mac网关为旁路由ip，会得不到nat1
+	# 使用dhcp-mac=dhcp-mac=set:greatwall,<MAC address>标记需要科学的mac地址
 	sed -i "/dhcp-option=lan,6,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i "/dhcp-option=lan,252/d" /etc/storage/dnsmasq/dnsmasq.conf
 	nvram set dhcp_dnsv6_x=""
 cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
-dhcp-option=lan,3,$BYP_IP4
+dhcp-option=greatwall,3,$BYP_IP4
 dhcp-option=lan,6,$BYP_IP4
 dhcp-option=lan,252,$BYP_PAC
 EOF
@@ -46,7 +48,7 @@ EOF
 # 删除dhcp_option
 del_dhcp()
 {
-	sed -i "/dhcp-option=lan,3,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i "/dhcp-option=greatwall,3,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i "/dhcp-option=lan,6,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i "/dhcp-option=lan,252,$BYP_PAC/d" /etc/storage/dnsmasq/dnsmasq.conf
 	nvram set dhcp_dnsv6_x=""
@@ -55,6 +57,24 @@ del_dhcp()
 }
 # 检测旁路由是否上线
 byp_online(){
+	# 主路由为padavan，配合旁路由ss的脚本，旁路由开ssr服务端，不可用，原因未知，可能是没有从wan口进来
+	gfwlist=`cat /tmp/dnsmasq.dom/gfwlist_list.conf | grep 127.0.0.1#`
+	ss_enabled=`ps | grep /usr/bin/ssr-redir | grep -v grep`
+	if [ -n $ss_enabled -a -n "$gfwlist" ]; then
+		logger -t "【旁路由ss】" "ss规则有问题，使用旁路由的dns查询"
+		awk '!/^$/&&!/^#/{printf("ipset=/%s/'"gfwlist"'\n",$0)}' /etc/storage/gfwlist/gfwlist_list.conf >/tmp/dnsmasq.dom/gfwlist_list.conf
+#		awk '!/^$/&&!/^#/{printf("ipset=/%s/'"gfwlist"'\n",$0)}' /etc/storage/ss_dom.sh >/tmp/dnsmasq.dom/ss_dom.conf
+#		awk '!/^$/&&!/^#/{printf("ipset=/%s/'"gfwlist"'\n",$0)}' /etc/storage/uss_dom.sh >/tmp/dnsmasq.dom/uss_dom.conf
+		awk '!/^$/&&!/^#/{printf("server=/%s/'"10.0.0.2#5335"'\n",$0)}' /etc/storage/gfwlist/gfwlist_list.conf >>/tmp/dnsmasq.dom/gfwlist_list.conf
+		sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
+		sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
+		sed -i '/server=10.0.0.2/d' /etc/storage/dnsmasq/dnsmasq.conf
+cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
+no-resolv
+server=10.0.0.2#7053
+EOF
+/sbin/restart_dhcpd
+	fi
 	tries=0
 	while [[ $tries -lt 3 ]]
 	do
