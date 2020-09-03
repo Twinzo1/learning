@@ -26,6 +26,11 @@ fi
 ### 添加定时命令
 * ``` */1 * * * * /etc/storage/bypa.sh start ```
 -----
+### 指定不同网关
+* ```dhcp-mac=set:<tag>,<MAC address>```设置标签
+* ```dhcp-option=<tag>,3,10.0.0.02```设置网关为10.0.0.2
+* openwrt同样适用
 ### 重要
 * 脚本内容需要填写
-* 不能实现nat1，目前方式是旁路由也打开fullcone nat，但电脑开了防火墙后不能检测出nat类型，关闭则是fullcone nat
+* 不能实现nat1，~~目前方式是旁路由也打开fullcone nat，但电脑开了防火墙后不能检测出nat类型，关闭则是fullcone nat~~，尚待商榷
+* 若要nat1，则主路由使用openwrt
