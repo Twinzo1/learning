@@ -25,4 +25,4 @@ smbd -D -s /etc/smb.conf
 ## 问题
 1. 路由器无法访问https://raw.githubusercontent.com
 * 解决：在 自定义配置文件 "dnsmasq.servers" 中添加``` server=/raw.githubusercontent.com/8.8.8.8#53 ```
-* 不能nat1
+~~* 不能nat1~~
