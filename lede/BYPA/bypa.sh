@@ -1,4 +1,5 @@
 #!/bin/sh
+# version v1.0
 # 定时命令
 # */1 * * * * /usr/bin/bypa.sh check
 
