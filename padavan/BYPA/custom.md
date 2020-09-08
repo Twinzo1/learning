@@ -20,8 +20,8 @@ sed -i 's/interfaces =.*/interfaces = eth2.2 br0/' /etc/smb.conf
 smbd -D -s /etc/smb.conf
 # logger -t "【SAMBA服务器】" "脚本完成"
 
-logger -t "【交换机】" "打开vlan 37的通道"
-switch vlan set 37 1111111 0 0 ttttttt
+#logger -t "【交换机】" "打开vlan 37的通道"
+#switch vlan set 37 1111111 0 0 ttttttt
 
 logger -t "【网路唤醒】" "防止断电，唤醒旁路由"
 /usr/sbin/ether-wake -b ff:ff:ff:ff:ff:ff -i eth2 #填写旁路由mac地址
