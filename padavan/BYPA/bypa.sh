@@ -1,4 +1,5 @@
 #!/bin/sh
+# versin v1.0
 # 定时命令
 # */1 * * * * /etc/storage/bypa.sh start
 
