@@ -7,9 +7,10 @@
 ### 单线复用（只有选中的端口可用，且端口不能上网）
 * 选择IPTV STB 端口，填写标记iptv的vid
 ### 单线复用（每个端口都能用ao）
-* 标记iptv的vid，并执行命令``` switch vlan set 37 1111111 0 0 ttttttt ```
-* 37 是我的IPTV VID
-* 不需要在wan口设置添加vlan
+* ~~标记iptv的vid，并执行命令``` switch vlan set 37 1111111 0 0 ttttttt ```~~
+* ~~37 是我的IPTV VID~~
+* ~~不需要在wan口设置添加vlan~~
+* 暂时未可用
 -------
 ## 放行wan口samba访问
 * 在防火墙后面添加
