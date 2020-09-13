@@ -1,5 +1,5 @@
 #!/bin/sh
-# versin v1.11
+# versin v1.12
 # 定时命令
 # */1 * * * * /etc/storage/bypa.sh start
 
@@ -77,7 +77,7 @@ EOF
 /sbin/restart_dhcpd
 	fi
 	al_online=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "3,$BYP_IP4"`	
-	al_exit=`nvram show | grep dhcp_dnsv6_x | grep "$BYP_IP6"` | awk -F "=" '{print $2}'
+	al_exit=`nvram show | grep dhcp_dnsv6_x | grep "$BYP_IP6" | awk -F "=" '{print $2}'`
 	tries=0
 	while [[ $tries -lt 3 ]]
 	do
