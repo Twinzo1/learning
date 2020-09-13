@@ -1,5 +1,5 @@
 #!/bin/sh
-# versin v1.1
+# versin v1.11
 # 定时命令
 # */1 * * * * /etc/storage/bypa.sh start
 
@@ -88,7 +88,7 @@ EOF
 		fi
         	tries=$((tries+1))
 	done
-	[ -z "$al_exit" -a -n "$al_online" ] && logger -t "【BYPA】" "旁路由下线，开始调整dhcp选项" && del_dhcp
+	[ -n "$al_exit" -o -n "$al_online" ] && logger -t "【BYPA】" "旁路由下线，开始调整dhcp选项" && del_dhcp
 }
 
 case $1 in
