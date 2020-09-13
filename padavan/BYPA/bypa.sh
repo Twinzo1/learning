@@ -1,5 +1,5 @@
 #!/bin/sh
-# versin v1.12
+# versin v1.13
 # 定时命令
 # */1 * * * * /etc/storage/bypa.sh start
 
@@ -51,7 +51,7 @@ del_dhcp()
 {
 	sed -i "/dhcp-option=greatwall,3,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i "/dhcp-option=lan,6,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
-	sed -i "/dhcp-option=lan,252,$BYP_PAC/d" /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i "/dhcp-option=lan,252/d" /etc/storage/dnsmasq/dnsmasq.conf
 	nvram set dhcp_dnsv6_x=""
 	nvram commit
 	/sbin/restart_dhcpd
