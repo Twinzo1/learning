@@ -1,5 +1,5 @@
 #!/bin/sh
-# version v1.0
+# version v1.10
 # 定时命令
 # */1 * * * * /usr/bin/bypa.sh check
 
@@ -51,20 +51,19 @@ del_dhcp()
 # 检测旁路由是否上线
 byp_online()
 {
+	al_online=`uci show | grep dhcp.lan.dhcp_option | grep "3,$BYP_IP4"`	
+	al_exit=`uci show | grep dhcp.lan.dns | grep "$BYP_IP6"`
 	tries=0
 	while [[ $tries -lt 3 ]]
 	do
         	if /bin/ping -c 1 $BYP_IP4 >/dev/null
         	then
-                	al_online=`uci show | grep dhcp.lan.dhcp_option | grep "3,$BYP_IP4"`	
-			al_exit=`uci show | grep dhcp.lan.dns | grep "$BYP_IP6"`
 			[ -z "$al_exit" -o -z "$al_online" ] && add_dhcp
                 exit 0
      		fi
         	tries=$((tries+1))
 	done
-	echo "旁路由下线，开始调整dhcp选项" >>  $LOGFILE
-  	del_dhcp
+	[ -n "$al_exit" -o -n "$al_online" ] && echo "旁路由下线，开始调整dhcp选项" >>  $LOGFILE && del_dhcp
 }
 
 [ "$1" = "check" ] && byp_online || echo "参数错误" >>  $LOGFILE
