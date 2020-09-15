@@ -12,4 +12,9 @@ https://xn--15qp3au64eprx.com/user/node
 邀请码: 4RtU
 
 ---------
+3.免费高速
+
+https://jisumax.com/#/register?code=6WX9Usty
+
+-----
 
