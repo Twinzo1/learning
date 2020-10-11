@@ -25,6 +25,8 @@
 * 若只使用AdGuardHome 则添加DNS重写为A记录
 * 添加pac文件，在/www 目录中添加 music.pac文件
 * 如果使用了AdGuardHome 需要放行网易云域名
+* 安卓不支持wpad，主路由同样开启解锁网易云，使用旁路由作为服务器
+* 苹果网络不给力，关闭网易云后台重新打开即可
 ----
 ### rclone挂载
 * ```rclone mount teacher: /mnt/teacher --config /mnt/sda3/etc/rclone/rclone.conf --allow-other --allow-non-empty --vfs-cache-mode writes &```
