@@ -43,4 +43,7 @@
 * youtube广告走国内通道
 * AdGuardHome 暂时不支持ipset，需要设为dnsmasq上游服务器
 * ipv6网关还是主路由，可用option6指定网关（暂时没有需求）
+------
+### 计划添加
+* 检测旁路由是否正常工作，主要通过检测dns是否正常```nslookup www.baidu.com #10.0.0.2```
 
