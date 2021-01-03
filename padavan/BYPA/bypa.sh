@@ -80,7 +80,7 @@ EOF
 	al_exit=`nvram show | grep dhcp_dnsv6_x | grep "$BYP_IP6" | awk -F "=" '{print $2}'`
 	(time nslookup www.baidu.com $BYP_IP4 ) 2> /tmp/bypa.log
 	time=`cat /tmp/bypa.log | grep real | awk '{print $3}' | awk -F "." '{print $1}'`
-	if [ "$time"x == "0"x ]; then
+	if [ "$time"x == "0"x ] && [ -z "$al_exit" -a -z "$al_online" ]; then
 		[ -z "$al_exit" -o -z "$al_online" ] && add_dhcp
 		exit 0
 	fi
