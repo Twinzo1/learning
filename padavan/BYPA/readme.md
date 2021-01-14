@@ -31,7 +31,7 @@ fi
 * ```dhcp-option=<tag>,3,10.0.0.02```设置网关为10.0.0.2
 * openwrt同样适用
 ### 重要
-* 使用旁路由网关，网速会下降，上行为0，。需要旁路由添加```iptables -t nat -I POSTROUTING -j MASQUERADE```
+* 使用旁路由网关，网速下降，上行为0时，需要旁路由添加```iptables -t nat -I POSTROUTING -j MASQUERADE```
 * 当不能上国内网时，重启防火墙
 * 若非单网卡，需指定```-o eth0```网卡，添加之后同样下行降低，但上行不变（或许是本来就低）
 * 脚本内容需要填写
