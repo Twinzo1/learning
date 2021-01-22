@@ -20,6 +20,10 @@
 ||v.msccabin.com
 ||v.zixiansun.com
 
+||c.yanyanbiji.com
+||c.msccabin.com
+||c.zixiansun.com
+
 ||p.molifs.com
 ||img.baidu.com.365ycp.com
 ||p.zihebest.com
