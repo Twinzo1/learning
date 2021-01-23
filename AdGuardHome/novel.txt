@@ -53,27 +53,11 @@
 ||l.kscmt.cn
 
 #花季传媒
-||*.uqfbjk.com
-||*.urlufz.com
-||*.uxuczn.com
-||*.vfzyhk.com
-||*.vvscvz.com
 ||uqfbjk.com
 ||urlufz.com
 ||uxuczn.com
 ||vfzyhk.com
 ||vvscvz.com
-||*.drhwxd.com
-||*.dvshgb.com
-||*.edivwd.com
-||*.ejjdcp.com
-||*.eqatyz.com
-||*.gnvkdd.com
-||*.gvorqq.com
-||*.gxfmsa.com
-||*.yrkjoc.com
-||*.yvwcqd.com
-||*.yzrhin.com
 ||drhwxd.com
 ||dvshgb.com
 ||edivwd.com
