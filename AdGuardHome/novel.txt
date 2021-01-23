@@ -9,7 +9,6 @@
 ||mbv.haiyong31.cn
 ||mbv.lulunote.cn
 ||mbv.xichongjy.cn
-
 ||mbc.energy-tmr.cn
 ||mbc.erkesi.cn
 ||mbc.haiyong31.cn
@@ -19,7 +18,6 @@
 ||v.yanyanbiji.com
 ||v.msccabin.com
 ||v.zixiansun.com
-
 ||c.yanyanbiji.com
 ||c.msccabin.com
 ||c.zixiansun.com
@@ -31,3 +29,12 @@
 ||p.mjiale.com
 ||p.hljklkg.com
 ||p.kujiangbz.com
+
+||c.cxddcip.cn
+||c.dongchunlei.cn
+||c.xbjcgs.cn
+||c.xuanyuesao.cn
+||v.cxddcip.cn
+||v.dongchunlei.cn
+||v.xbjcgs.cn
+||v.xuanyuesao.cn
