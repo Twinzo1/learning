@@ -50,7 +50,7 @@
 ||kdf0456.xaydjc.cn
 ||lrc2375.whldmq.cn
 
-l.kscmt.cn
+||l.kscmt.cn
 
 #花季传媒
 ||*.uqfbjk.com
