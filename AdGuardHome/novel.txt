@@ -78,3 +78,6 @@
 ||n.lyhdsc.cn
 ||n.njyky.cn
 ||n.yushengxin.cn
+
+||qj12.booktxt.net
+||qj1229.booktxt.net
