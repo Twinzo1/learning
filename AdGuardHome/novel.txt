@@ -1,6 +1,5 @@
 #小米浏览器小说推送
-||reader.browser.duokan.com
-||cover.read.duokan.com
+
 
 ||v.xjsytoy.com
 ||v.lezengxin.com
