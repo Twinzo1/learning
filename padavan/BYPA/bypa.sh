@@ -22,9 +22,11 @@ BYP_IP4=`nvram get bypa_ipaddr_x`
 BYP_IP6=`ip -6 neighbor show | grep -i "$BYP_MAC" | sed -n '1p' | awk -F " " '{print $1}' 2>/dev/null`
 
 # 解锁网易云pac地址
-BYP_PAC=`nvram get bypa_pac_url 2>/dev/null`
+BYP_PAC=`nvram get bypa_pac_url`
 [  -z "$BYP_PAC" ] && BYP_PAC="http://10.0.0.2/music.pac"
 
+# 额外设置，比如指定dhcp-option-force
+extra_setting=$(echo `nvram get bypa_extra_setting`)
 # 添加dhcp_option
 add_dhcp()
 {
@@ -34,6 +36,10 @@ add_dhcp()
 	sed -i "/dhcp-option=lan,6,$BYP_IP4/d" /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i "/dhcp-option=lan,252/d" /etc/storage/dnsmasq/dnsmasq.conf
 	nvram set dhcp_dnsv6_x=""
+	cat "dhcp-option=greatwall,3,$BYP_IP4" > /tmp/bypa.conf
+	cat "dhcp-option=lan,6,$BYP_IP4" > /tmp/bypa.conf
+	cat "dhcp-option=lan,252,$BYP_PAC" > /tmp/bypa.conf
+	cat "dhcp-option=greatwall,3,$BYP_IP4" > /tmp/bypa.conf
 cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
 dhcp-option=greatwall,3,$BYP_IP4
 dhcp-option=lan,6,$BYP_IP4
@@ -74,7 +80,7 @@ cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
 no-resolv
 server=10.0.0.2#7053
 EOF
-/sbin/restart_dhcpd
+	/sbin/restart_dhcpd
 	fi
 	al_online=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "3,$BYP_IP4"`	
 	[ -n "$BYP_IP6" ] && al_exit=`nvram show | grep dhcp_dnsv6_x | grep "$BYP_IP6" | awk -F "=" '{print $2}'` || al_exit="1"
