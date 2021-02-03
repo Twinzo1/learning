@@ -33,7 +33,7 @@ nvram set bypa_pac_url="http://10.0.0.2/music.pac"
 ```
 -----
 ### 添加定时命令
-* ``` */1 * * * * /etc/storage/bypa.sh start ```
+* ``` killall bypa.sh && */1 * * * * /etc/storage/bypa.sh start ```
 -----
 ### 指定不同网关
 * ```dhcp-mac=set:<tag>,<MAC address>```设置标签
