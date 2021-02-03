@@ -9,7 +9,7 @@ BYP_MAC=`nvram get bypa_macaddr_x`
 [ -z "$BYP_MAC" ] && BYP_MAC=""
 # 获取旁路由ipv4地址
 BYP_IP4=`nvram get bypa_ipaddr_x`
-[ -z "$BYP_IP4" ] && BYP_IP4="10.0.0.2"
+[ -z "$BYP_IP4" ] && BYP_IP4=""
 # 我的旁路由ip
 [ -z "$BYP_IP4" -a -z "$BYP_MAC" ] && logger -t "【BYPA】" "需填写旁路由IP或mac地址，脚本退出" && exit 0
 [ -z "$BYP_IP4" ] && BYP_IP4=`cat /proc/net/arp | grep -i "$BYP_MAC" | awk -F " " '{print $1}' 2>/dev/null`
@@ -22,7 +22,7 @@ BYP_IP6=`ip -6 neighbor show | grep -i "$BYP_MAC" | sed -n '1p' | awk -F " " '{p
 
 # 解锁网易云pac地址
 BYP_PAC=`nvram get bypa_pac_url`
-[  -z "$BYP_PAC" ] && BYP_PAC="http://10.0.0.2/music.pac"
+[  -z "$BYP_PAC" ] && BYP_PAC=""
 
 # 添加dhcp_option
 add_dhcp()
