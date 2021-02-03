@@ -83,7 +83,7 @@ EOF
 		[ -z "$al_exit" -o -z "$al_online" ] && add_dhcp
 		exit 0
 	else
-		/usr/sbin/ether-wake -b $BYP_MAC -i eth2 #尝试唤醒
+		#/usr/sbin/ether-wake -b $BYP_MAC -i eth2 #尝试唤醒
 		if [ -n "$al_exit" -a "$al_exit" -ne "1" ] || [ -n "$al_online" ]; then
 			logger -t "【BYPA】" "旁路由下线，开始调整dhcp选项" && del_dhcp
 		fi
