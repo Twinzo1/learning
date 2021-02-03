@@ -21,6 +21,8 @@ if [ ! -e "/etc/storage/bypa.sh" ]; then
 else
     logger -t "【BYPA】" "脚本已存在，无需下载"
 fi
+github加速：
+https://ghproxy.com/https://raw.githubusercontent.com/Twinzo1/learning/master/padavan/BYPA/bypa.sh -v
 ```
 ------------
 ### 添加定时命令
