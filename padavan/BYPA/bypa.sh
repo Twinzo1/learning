@@ -38,7 +38,7 @@ add_dhcp()
 	extra_setting_num=`nvram show | grep "bypa_ex_set_x"`
 	for es in $extra_setting_num
 	do 
-		[ -n `awk -F "=" '{print $2}'` ] && echo $es "#added by bypa" >> /tmp/bypa.conf
+		[ -n `awk -F "=" '{print $2}'` ] && `echo $es "#added by bypa" | sed 's/^[^=]*.//'` >> /tmp/bypa.conf
 	done
 	cat /tmp/bypa.conf >> /etc/storage/dnsmasq/dnsmasq.conf
   	/sbin/restart_dhcpd
