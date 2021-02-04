@@ -36,7 +36,7 @@ fi
 ``` 
 nvram set bypa_ipaddr_x="10.0.0.2"
 nvram set bypa_pac_url="http://10.0.0.2/music.pac"
-#nvram set bypa_ex_set_x0="dhcp-option-force=monitor,10.0.0.1"
+#nvram set bypa_ex_set_x0="dhcp-option-force=monitor,3,10.0.0.1"
 ```
 -----
 ### 添加定时命令
