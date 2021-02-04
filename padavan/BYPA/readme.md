@@ -41,6 +41,7 @@ nvram set bypa_pac_url="http://10.0.0.2/music.pac"
 -----
 ### 添加定时命令
 * ``` */1 * * * * killall bypa.sh && /etc/storage/bypa.sh start ```
+* 对于不能来电自启的机子，可以尝试网络唤醒：```/usr/sbin/ether-wake -b [旁路由mac] -i eth2```
 -----
 ### 指定不同网关
 * ```dhcp-mac=set:<tag>,<MAC address>```设置标签
