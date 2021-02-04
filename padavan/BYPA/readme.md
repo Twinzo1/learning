@@ -22,7 +22,14 @@ else
     logger -t "【BYPA】" "脚本已存在，无需下载"
 fi
 github加速：
-https://ghproxy.com/https://raw.githubusercontent.com/Twinzo1/learning/master/padavan/BYPA/bypa.sh
+logger -t "【BYPA】" "正在下载旁路由辅助脚本"
+if [ ! -e "/etc/storage/bypa.sh" ]; then
+    curl -k -s -o /etc/storage/bypa.sh --connect-timeout 10 --retry 3 https://ghproxy.com/https://raw.githubusercontent.com/Twinzo1/learning/master/padavan/BYPA/bypa.sh -v
+    chmod 755 /etc/storage/bypa.sh && mtd_storage.sh save
+    /etc/storage/bypa.sh start
+else
+    logger -t "【BYPA】" "脚本已存在，无需下载"
+fi
 ```
 ------------
 ### 设置旁路由ip或mac地址
