@@ -1,5 +1,5 @@
 #!/bin/sh
-# versin v1.13
+# versin v2.0
 # 定时命令
 # */1 * * * * /etc/storage/bypa.sh start
 
@@ -32,6 +32,7 @@ add_dhcp()
 	# 使用dhcp-mac=dhcp-mac=set:greatwall,<MAC address>标记需要科学的mac地址
 	echo "dhcp-option=greatwall,3,$BYP_IP4" "#added by bypa" > /tmp/bypa.conf
 	echo "dhcp-option=lan,6,$BYP_IP4" "#added by bypa" >> /tmp/bypa.conf
+	[ ! -z "$BYP_IP6" ] && echo "dhcp-option=lan,option6:23,[$BYP_IP6]" "#added by bypa" >> /tmp/bypa.conf
 	[ ! -z "$BYP_PAC" ] && echo "dhcp-option=lan,252,$BYP_PAC" "#added by bypa" >> /tmp/bypa.conf
 	# 额外设置，比如指定dhcp-option-force
 	extra_setting_num=`nvram show | grep "bypa_ex_set_x"`
@@ -40,8 +41,6 @@ add_dhcp()
 		[ -n `awk -F "=" '{print $2}'` ] && echo $es "#added by bypa" >> /tmp/bypa.conf
 	done
 	cat /tmp/bypa.conf >> /etc/storage/dnsmasq/dnsmasq.conf
-  	nvram set dhcp_dnsv6_x="$BYP_IP6"
-  	nvram commit
   	/sbin/restart_dhcpd
 	rm /tmp/bypa.conf
 	logger -t "【BYPA】" "旁路由上线，开始调整dhcp选项"
@@ -51,8 +50,6 @@ add_dhcp()
 del_dhcp()
 {
 	sed -i "/#added by bypa/d" /etc/storage/dnsmasq/dnsmasq.conf
-	nvram set dhcp_dnsv6_x=""
-	nvram commit
 	/sbin/restart_dhcpd
 }
 # 检测旁路由是否上线
@@ -76,7 +73,7 @@ EOF
 	/sbin/restart_dhcpd
 	fi
 	al_online=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "3,$BYP_IP4"`	
-	[ -n "$BYP_IP6" ] && al_exit=`nvram show | grep dhcp_dnsv6_x | grep "$BYP_IP6" | awk -F "=" '{print $2}'` || al_exit="1"
+	[ -n "$BYP_IP6" ] && al_exit=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "23,[$BYP_IP6]"` || al_exit="1"
 	(time nslookup www.baidu.com $BYP_IP4 ) 2> /tmp/bypa.log
 	time=`cat /tmp/bypa.log | grep real | awk '{print $3}' | awk -F "." '{print $1}'`
 	if [ "$time"x == "0"x ]; then
