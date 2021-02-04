@@ -1,5 +1,5 @@
 #!/bin/sh
-# versin v2.02
+# versin v2.03
 # 定时命令
 # */1 * * * * /etc/storage/bypa.sh start
 
@@ -38,7 +38,7 @@ add_dhcp()
 	extra_setting_num=`nvram show | grep "bypa_ex_set_x"`
 	for es in $extra_setting_num
 	do 
-		[ -n `awk -F "=" '{print $2}'` ] && `echo $es "#added by bypa" | sed 's/^[^=]*.//'` >> /tmp/bypa.conf
+		[ -n `awk -F "=" '{print $2}'` ] && `echo $es "#added by bypa extra setting" | sed 's/^[^=]*.//'` >> /tmp/bypa.conf
 	done
 	cat /tmp/bypa.conf >> /etc/storage/dnsmasq/dnsmasq.conf
   	/sbin/restart_dhcpd
@@ -73,17 +73,20 @@ EOF
 	/sbin/restart_dhcpd
 	fi
 	al_online=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "3,$BYP_IP4"`	
-	[ -n "$BYP_IP6" ] && al_exit=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "23,[$BYP_IP6]"` || al_exit="1"
+	al_exit=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "23,[$BYP_IP6]"`
 	(time nslookup www.baidu.com $BYP_IP4 ) 2> /tmp/bypa.log
 	time=`cat /tmp/bypa.log | grep real | awk '{print $3}' | awk -F "." '{print $1}'`
+	exit_l=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "bypa extra setting" | wc -l`
+	nvram_l=`nvram show | grep "bypa_ex_set_x" | wc -l`
+	if [ $exit_l -eq $nvram_l ]; then
+		dnsmasq_exit=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "bypa extra setting" | sed 's/#added by bypa extra setting//'`
+		nvram_exit=`nvram show | grep "bypa extra setting" | sed 's/^[^=]*.//'`
+	fi
 	if [ "$time"x == "0"x ]; then
-		[ -z "$al_exit" -o -z "$al_online" ] && add_dhcp
-		exit 0
+		[ -z "$al_exit" -o -z "$al_online" -o $exit_l -ne $nvram_l -o "$dnsmasq_exit" != "$nvram_exit" ] && add_dhcp
 	else
 		#/usr/sbin/ether-wake -b $BYP_MAC -i eth2 #尝试唤醒
-		if [ -n "$al_exit" -a "$al_exit" -ne "1" ] || [ -n "$al_online" ]; then
-			logger -t "【BYPA】" "旁路由下线，开始调整dhcp选项" && del_dhcp
-		fi
+		[ -n "$al_exit" -o -n "$al_online" ] && logger -t "【BYPA】" "旁路由下线，开始调整dhcp选项" && del_dhcp
 	fi
 	exit 0
 }
