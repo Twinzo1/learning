@@ -55,8 +55,8 @@ del_dhcp()
 # 检测旁路由是否上线
 byp_online(){
 	# 主路由为padavan，配合旁路由ss的脚本，旁路由开ssr服务端，不可用，原因未知，可能是没有从wan口进来
-	gfwlist=`cat /tmp/dnsmasq.dom/gfwlist_list.conf | grep 127.0.0.1#`
-	ss_enabled=`ps | grep /usr/bin/ssr-redir | grep -v grep`
+#	gfwlist=`cat /tmp/dnsmasq.dom/gfwlist_list.conf 2>/dev/null | grep 127.0.0.1#`
+#	ss_enabled=`ps | grep /usr/bin/ssr-redir 2>/dev/null | grep -v grep`
 	if [ -n $ss_enabled -a -n "$gfwlist" ]; then
 		logger -t "【旁路由ss】" "ss规则有问题，使用旁路由的dns查询"
 		awk '!/^$/&&!/^#/{printf("ipset=/%s/'"gfwlist"'\n",$0)}' /etc/storage/gfwlist/gfwlist_list.conf >/tmp/dnsmasq.dom/gfwlist_list.conf
