@@ -1,5 +1,5 @@
 #!/bin/sh
-# versin v2.01
+# versin v2.02
 # 定时命令
 # */1 * * * * /etc/storage/bypa.sh start
 
@@ -85,6 +85,7 @@ EOF
 			logger -t "【BYPA】" "旁路由下线，开始调整dhcp选项" && del_dhcp
 		fi
 	fi
+	exit 0
 }
 
 case $1 in
