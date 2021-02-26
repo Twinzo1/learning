@@ -1,5 +1,5 @@
 #!/bin/sh
-# versin v2.03
+# versin v2.10
 # 定时命令
 # */1 * * * * /etc/storage/bypa.sh start
 
@@ -24,6 +24,9 @@ BYP_IP6=`ip -6 neighbor show | grep -i "$BYP_MAC" | sed -n '1p' | awk -F " " '{p
 BYP_PAC=`nvram get bypa_pac_url`
 #BYP_PAC="http://10.0.0.2/music.pac"
 
+# 网易云与旁路由同步启动和关闭（云解锁地址为旁路由）
+BYP_CLOUD=`nvram get bypa_cloud_syn`
+BYP_CLOUD_PATH=`nvram get bypa_cloud_path`
 # 添加dhcp_option
 add_dhcp()
 {
@@ -41,6 +44,7 @@ add_dhcp()
 		[ -n `awk -F "=" '{print $2}'` ] && echo "$es #added by bypa extra setting" | sed 's/^[^=]*.//' >> /tmp/bypa.conf
 	done
 	cat /tmp/bypa.conf >> /etc/storage/dnsmasq/dnsmasq.conf
+	[ "$BYP_CLOUD"x == "1"x ] && $BYP_CLOUD_PATH restart
   	/sbin/restart_dhcpd
 	rm /tmp/bypa.conf
 	logger -t "【BYPA】" "旁路由上线，开始调整dhcp选项"
@@ -50,28 +54,11 @@ add_dhcp()
 del_dhcp()
 {
 	sed -i "/#added by bypa/d" /etc/storage/dnsmasq/dnsmasq.conf
+	[ "$BYP_CLOUD"x == "1"x -a $(pgrep unblockmusic.sh) ] && $BYP_CLOUD_PATH stop
 	/sbin/restart_dhcpd
 }
 # 检测旁路由是否上线
 byp_online(){
-	# 主路由为padavan，配合旁路由ss的脚本，旁路由开ssr服务端，不可用，原因未知，可能是没有从wan口进来
-#	gfwlist=`cat /tmp/dnsmasq.dom/gfwlist_list.conf 2>/dev/null | grep 127.0.0.1#`
-#	ss_enabled=`ps | grep /usr/bin/ssr-redir 2>/dev/null | grep -v grep`
-	if [ -n $ss_enabled -a -n "$gfwlist" ]; then
-		logger -t "【旁路由ss】" "ss规则有问题，使用旁路由的dns查询"
-		awk '!/^$/&&!/^#/{printf("ipset=/%s/'"gfwlist"'\n",$0)}' /etc/storage/gfwlist/gfwlist_list.conf >/tmp/dnsmasq.dom/gfwlist_list.conf
-#		awk '!/^$/&&!/^#/{printf("ipset=/%s/'"gfwlist"'\n",$0)}' /etc/storage/ss_dom.sh >/tmp/dnsmasq.dom/ss_dom.conf
-#		awk '!/^$/&&!/^#/{printf("ipset=/%s/'"gfwlist"'\n",$0)}' /etc/storage/uss_dom.sh >/tmp/dnsmasq.dom/uss_dom.conf
-		awk '!/^$/&&!/^#/{printf("server=/%s/'"10.0.0.2#5335"'\n",$0)}' /etc/storage/gfwlist/gfwlist_list.conf >>/tmp/dnsmasq.dom/gfwlist_list.conf
-		sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
-		sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
-		sed -i '/server=10.0.0.2/d' /etc/storage/dnsmasq/dnsmasq.conf
-cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
-no-resolv
-server=10.0.0.2#7053
-EOF
-	/sbin/restart_dhcpd
-	fi
 	al_online=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "3,$BYP_IP4"`	
 	al_exit=`cat /etc/storage/dnsmasq/dnsmasq.conf | grep "23,\[$BYP_IP6\]"`
 	(time nslookup www.baidu.com $BYP_IP4 ) 2> /tmp/bypa.log
