@@ -27,6 +27,7 @@ BYP_PAC=`nvram get bypa_pac_url`
 # 网易云与旁路由同步启动和关闭（云解锁地址为旁路由）
 BYP_CLOUD=`nvram get bypa_cloud_syn`
 BYP_CLOUD_PATH=`nvram get bypa_cloud_path`
+[ "$BYP_CLOUD"x == "1"x -a -z "$BYP_CLOUD_PATH" ] && logger -t "【BYPA】" "请设置音乐解锁脚本路径"
 # 添加dhcp_option
 add_dhcp()
 {
@@ -44,7 +45,7 @@ add_dhcp()
 		[ -n `awk -F "=" '{print $2}'` ] && echo "$es #added by bypa extra setting" | sed 's/^[^=]*.//' >> /tmp/bypa.conf
 	done
 	cat /tmp/bypa.conf >> /etc/storage/dnsmasq/dnsmasq.conf
-	[ "$BYP_CLOUD"x == "1"x ] && $BYP_CLOUD_PATH restart
+	[ "$BYP_CLOUD"x == "1"x -a -n "$BYP_CLOUD_PATH" ] && $BYP_CLOUD_PATH restart
   	/sbin/restart_dhcpd
 	rm /tmp/bypa.conf
 	logger -t "【BYPA】" "旁路由上线，开始调整dhcp选项"
@@ -54,7 +55,7 @@ add_dhcp()
 del_dhcp()
 {
 	sed -i "/#added by bypa/d" /etc/storage/dnsmasq/dnsmasq.conf
-	[ "$BYP_CLOUD"x == "1"x -a $(pgrep unblockmusic.sh) ] && $BYP_CLOUD_PATH stop
+	[ "$BYP_CLOUD"x == "1"x -a -n $(pgrep unblockmusic.sh) -a -n "$BYP_CLOUD_PATH" ] && $BYP_CLOUD_PATH stop
 	/sbin/restart_dhcpd
 }
 # 检测旁路由是否上线
